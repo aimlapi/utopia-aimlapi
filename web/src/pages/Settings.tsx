@@ -895,7 +895,7 @@ function GrantsCell({
   );
 }
 
-const PRESETS: Record<
+export const PRESETS: Record<
   string,
   { chat: string; embed: string; chatModel: string; embedModel: string }
 > = {
@@ -910,6 +910,12 @@ const PRESETS: Record<
     chatModel: "deepseek-ai/DeepSeek-V3",
     embed: "https://api.siliconflow.cn/v1",
     embedModel: "BAAI/bge-m3",
+  },
+  "AI/ML API": {
+    chat: "https://api.aimlapi.com/v1",
+    chatModel: "openai/gpt-4o-mini",
+    embed: "https://api.aimlapi.com/v1",
+    embedModel: "openai/text-embedding-3-small",
   },
   "Qwen (DashScope)": {
     chat: "https://dashscope.aliyuncs.com/compatible-mode/v1",

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { S } from "../i18n";
-import { cardsOf, chatTestMessage, modelCardStatus } from "./Settings";
+import { PRESETS, cardsOf, chatTestMessage, modelCardStatus } from "./Settings";
 
 describe("model card status", () => {
   it("prefers a fresh test result over a stale save confirmation", () => {
@@ -115,5 +115,29 @@ describe("cards an edit touches", () => {
       "chat",
       "embed",
     ]);
+  });
+});
+
+describe("model presets", () => {
+  it("offers AI/ML API with chat and embeddings on its exact API host", () => {
+    const p = PRESETS["AI/ML API"];
+    expect(p).toEqual({
+      chat: "https://api.aimlapi.com/v1",
+      chatModel: "openai/gpt-4o-mini",
+      embed: "https://api.aimlapi.com/v1",
+      embedModel: "openai/text-embedding-3-small",
+    });
+    // 预设只指向官方主机：key 跟着 base_url 走，不能落到别的域名上
+    for (const url of [p.chat, p.embed]) {
+      const u = new URL(url);
+      expect(u.protocol).toBe("https:");
+      expect(u.host).toBe("api.aimlapi.com");
+    }
+  });
+
+  it("keeps the existing presets where they were", () => {
+    expect(Object.keys(PRESETS)[0]).toBe("DeepSeek");
+    expect(PRESETS.SiliconFlow.chat).toBe("https://api.siliconflow.cn/v1");
+    expect(PRESETS.OpenAI.chatModel).toBe("gpt-4o-mini");
   });
 });
